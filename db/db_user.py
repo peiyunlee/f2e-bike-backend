@@ -2,15 +2,16 @@ from fastapi import HTTPException, status
 from router.schemas import UserRequestSchema
 from sqlalchemy.orm.session import Session
 from sqlalchemy import func
-from db.models import DbUser
+from db.models import DbUser, DbStore
 from typing import List
 
 
 def register(db: Session, request: UserRequestSchema) -> DbUser:
     new_user = DbUser(
         email=request.email,
-        password=request.password
+        password=request.password,
     )
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -34,7 +35,8 @@ def get_user_by_id(user_id: int, db: Session) -> DbUser:
 
 
 def get_user_by_email(user_email: str, db: Session) -> DbUser:
-    user = db.query(DbUser).filter(func.upper(DbUser.email) == user_email.upper()).first()
+    user = db.query(DbUser).filter(func.upper(
+        DbUser.email) == user_email.upper()).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'User with email = {user_email} not found')

@@ -1,29 +1,24 @@
 from fastapi import HTTPException, status
 from router.schemas import RouteRequestSchema
 from sqlalchemy.orm.session import Session
-from db.models import DbRoute
-from typing import List
+from db.models import DbRouteItem, DbStore
 
+def store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
 
-def store_route(db: Session, request: RouteRequestSchema) -> DbRoute:
-    new_route = DbRoute(
+    store = db.query(DbStore).filter(DbStore.id == request.store_id).first()
+
+    if not store:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Store not create')
+
+    new_route = DbRouteItem(
+        store_id=request.store_id,
         city=request.city,
-        cycling_length=request.cycling_length,
         routename=request.routename,
-        roadsection_start=request.roadsection_start,
-        roadsection_end=request.roadsection_end,
-        positions=request.positions,
-        user_id=request.user_id,
     )
+    
     db.add(new_route)
     db.commit()
-    db.refresh(new_route)
+
     return new_route
 
-
-def get_all_store(db: Session) -> List[DbRoute]:
-    return db.query(DbRoute).all()
-
-
-def get_all_store_by_user_id(user_id: int, db: Session) -> List[DbRoute]:
-    return db.query(DbRoute).filter(DbRoute.user_id == user_id).all()

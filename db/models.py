@@ -4,16 +4,19 @@ from sqlalchemy.orm import relation, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
 
-class DbRoute(Base):
-    __tablename__ = 'route'
+class DbRouteItem(Base):
+    __tablename__ = 'route_item'
     id = Column(Integer, primary_key=True, index=True)
+    store_id = Column(Integer, ForeignKey('store.id'))
     city = Column(String, nullable=False)
-    cycling_length = Column(Integer, nullable=False)
     routename = Column(String, nullable=False)
-    roadsection_end = Column(String, nullable=False)
-    roadsection_start = Column(String, nullable=False)
-    positions = Column(String, nullable=False)
+    
+
+class DbStore(Base):
+    __tablename__ = 'store'
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('user.id'))
+    route_items = relationship('DbRouteItem')
 
 
 class DbUser(Base):

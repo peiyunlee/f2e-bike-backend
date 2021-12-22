@@ -3,13 +3,13 @@ from typing import List
 
 
 class RouteRequestSchema(BaseModel):
+    store_id: int
     city: str
-    cycling_length: int
     routename: str
-    roadsection_start: str
-    roadsection_end: str
-    positions: str
+
+class StoreRequestSchema(BaseModel):
     user_id: int
+
 
 class UserRequestSchema(BaseModel):
     email: EmailStr
@@ -24,14 +24,20 @@ class UserResponseSchema(UserRequestSchema):
     class Config():
         orm_mode = True
 
+
 class RouteResponseSchema(RouteRequestSchema):
+    store_id: int
     city: str
-    cycling_length:  int
     routename: str
-    roadsection_start: str
-    roadsection_end: str
-    positions: str
+
+    class Config():
+        orm_mode = True
+
+
+
+class StoreResponseSchema(StoreRequestSchema):
     user_id: int
+    route_items: List[RouteResponseSchema]
 
     class Config():
         orm_mode = True
