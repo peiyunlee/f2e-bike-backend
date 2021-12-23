@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from router.schemas import StoreRequestSchema, StoreResponseSchema
+from router.schemas import StoreRequestSchema, StoreResponseSchema, UserRequestSchema
 from db.database import get_db
 from db import db_store
 from typing import List
@@ -12,8 +12,8 @@ router = APIRouter(
 
 
 @router.post('', response_model=StoreResponseSchema)
-def create_store(request: StoreRequestSchema, db: Session = Depends(get_db)):
-    return db_store.create_store(db, request)
+def create(request: StoreRequestSchema, db: Session = Depends(get_db)):
+    return db_store.create(db, request)
 
 
 @router.get('/all', response_model=List[StoreResponseSchema])
