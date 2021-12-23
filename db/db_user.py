@@ -7,6 +7,11 @@ from typing import List
 
 
 def register(db: Session, request: UserRequestSchema) -> DbUser:
+    users = db.query(DbUser).filter(DbUser.email == request.email).first()
+    if users:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Email already registered')
+
     new_user = DbUser(
         email=request.email,
         password=request.password,

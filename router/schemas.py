@@ -16,15 +16,6 @@ class UserRequestSchema(BaseModel):
     password: str
 
 
-class UserResponseSchema(UserRequestSchema):
-    id: int
-    email: EmailStr
-    password: str
-
-    class Config():
-        orm_mode = True
-
-
 class RouteResponseSchema(RouteRequestSchema):
     store_id: int
     city: str
@@ -34,10 +25,25 @@ class RouteResponseSchema(RouteRequestSchema):
         orm_mode = True
 
 
-
 class StoreResponseSchema(StoreRequestSchema):
+    id: int
     user_id: int
     route_items: List[RouteResponseSchema]
+
+    class Config():
+        orm_mode = True
+
+class StoreResponseWithRouteSchema(StoreRequestSchema):
+    user_id: int
+    route_items: List[RouteResponseSchema]
+
+    class Config():
+        orm_mode = True
+
+class UserResponseSchema(UserRequestSchema):
+    id: int
+    email: EmailStr
+    password: str
 
     class Config():
         orm_mode = True

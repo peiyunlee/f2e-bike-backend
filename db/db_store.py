@@ -22,11 +22,17 @@ def get_all_store(db: Session) -> List[DbStore]:
                             detail=f'Stores not found')
     return stores
 
-
 def get_store_by_user_id(user_id: int, db: Session) -> DbStore:
-    store = db.query(DbStore).filter(DbStore.id == user_id).first()
+    store = db.query(DbStore).filter(DbStore.user_id == user_id).first()
     if not store:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Store with userId = {user_id} not found')
     return store
 
+def get_store_routes_by_user_id(user_id: int, db: Session) -> DbStore:
+    store = db.query(DbStore).filter(DbStore.user_id == user_id).first()
+    if not store:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Store with userId = {user_id} not found')
+    routes = store.route_items
+    return store
