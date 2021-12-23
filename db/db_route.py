@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 from router.schemas import RouteRequestSchema
 from sqlalchemy.orm.session import Session
 from db.models import DbRouteItem, DbStore
+from typing import List
 
 def store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
 
@@ -21,4 +22,3 @@ def store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
     db.commit()
 
     return new_route
-
