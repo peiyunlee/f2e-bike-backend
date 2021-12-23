@@ -1,9 +1,10 @@
 from fastapi import HTTPException, status
-from router.schemas import UserRequestSchema
+from router.schemas import UserRequestSchema,SignInRequestSchema
 from sqlalchemy.orm.session import Session
 from sqlalchemy import func
-from db.models import DbUser, DbStore
+from db.models import DbUser
 from typing import List
+from utils.hash import bcrypt, verify
 
 
 def register(db: Session, request: UserRequestSchema) -> DbUser:
@@ -14,13 +15,30 @@ def register(db: Session, request: UserRequestSchema) -> DbUser:
 
     new_user = DbUser(
         email=request.email,
-        password=request.password,
+        password=bcrypt(request.password),
     )
+
+    # try:
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
+    
+    # except IntegrityError as exc:
+    #     db.rollback()
+    #     raise HTTPException(status_code=400, detail=f"{exc}".split('\n')[0])
+
+
+def signin(db:Session,request:SignInRequestSchema):
+    user = db.query(DbUser).filter(func.upper(DbUser.email) == request.email.upper()).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'User with email = {request.email} not found')
+    if not verify(user.password, request.password):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail='Incorrect password')
+    return user
 
 
 def get_all_users(db: Session) -> List[DbUser]:

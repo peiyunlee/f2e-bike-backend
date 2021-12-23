@@ -15,6 +15,10 @@ class UserRequestSchema(BaseModel):
     email: EmailStr
     password: str
 
+class SignInRequestSchema(BaseModel):
+    email: EmailStr
+    password: str
+
 
 class RouteResponseSchema(RouteRequestSchema):
     store_id: int

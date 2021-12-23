@@ -10,6 +10,7 @@ sqlalchemy = "*"
 pydantic = {extras = ["email"], version = "*"}
 gunicorn = "*"
 passlib = "*"
+python-jose = "*"
 
 [dev-packages]
 

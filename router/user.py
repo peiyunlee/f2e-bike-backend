@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from router.schemas import UserRequestSchema, UserResponseSchema
+from router.schemas import SignInRequestSchema, UserRequestSchema, UserResponseSchema
 from db.database import get_db
 from db import db_user
 from typing import List
@@ -10,10 +10,15 @@ router = APIRouter(
     tags=['users']
 )
 
-
+# async
 @router.post('', response_model=UserResponseSchema)
 def register(request: UserRequestSchema, db: Session = Depends(get_db)):
     return db_user.register(db=db, request=request)
+
+# async
+@router.post('/signin', response_model=UserResponseSchema)
+def signin(request: SignInRequestSchema, db: Session = Depends(get_db)):
+    return db_user.signin(db=db, request=request)
 
 
 @router.get('/all', response_model=List[UserResponseSchema])
