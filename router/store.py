@@ -4,6 +4,7 @@ from router.schemas import StoreRequestSchema, StoreResponseSchema, UserRequestS
 from db.database import get_db
 from db import db_store
 from typing import List
+from utils.oauth2 import get_current_user
 
 router = APIRouter(
     prefix='/api/v1/store',
@@ -11,8 +12,8 @@ router = APIRouter(
 )
 
 
-@router.post('', response_model=StoreResponseSchema)
-def create(request: StoreRequestSchema, db: Session = Depends(get_db)):
+@router.post('')
+def create(request: StoreRequestSchema, db: Session = Depends(get_db), current_user: UserRequestSchema = Depends(get_current_user)):
     return db_store.create(db, request)
 
 

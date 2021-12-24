@@ -13,7 +13,7 @@ from utils.oauth2 import create_access_token
 
 def register(db: Session, request: UserRequestSchema) :
     new_user = DbUser(
-        username=request.username,
+        username=request.email,
         email=request.email,
         password=bcrypt(request.password1)
     )
@@ -49,40 +49,6 @@ def signin(db: Session, request: SignInRequestSchema):
         'user_id': user.id,
         'username': user.username
     }
-
-
-# def update(db: Session, request: UpdateProfileRequestSchema):
-#     user = db.query(DbUser).filter(DbUser.id == request.user_id)
-#     user.update({
-#         DbUser.username: request.username,
-#         DbUser.password: bcrypt(request.password)
-#     })
-
-#     user_detail = db.query(DbUserDetail).filter(DbUserDetail.owner_id == request.user_id).first()
-#     if not user_detail:
-#         user_detail = DbUserDetail(
-#             address=request.address,
-#             tel=request.tel,
-#             owner_id=request.user_id,
-#         )
-#         db.add(user_detail)
-#         pass
-#     else:
-#         user_detail = db.query(DbUserDetail).filter(DbUserDetail.owner_id == request.user_id)
-#         user_detail.update({
-#             DbUserDetail.address: request.address,
-#             DbUserDetail.tel: request.tel
-#         })
-
-#     db.commit()
-#     access_token = create_access_token(data={'username': request.username})
-#     return {
-#         'access_token': access_token,
-#         'user_id': request.user_id,
-#         'username': request.username,
-#         'address': request.address,
-#         'tel': request.tel
-#     }
 
 
 def get_all_users(db: Session) -> List[DbUser]:
