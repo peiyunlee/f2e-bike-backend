@@ -14,6 +14,7 @@ passlib = "*"
 alembic = "*"
 python-jose = "*"
 python-multipart = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
