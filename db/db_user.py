@@ -12,14 +12,13 @@ from utils.oauth2 import create_access_token
 
 
 def register(db: Session, request: UserRequestSchema):
+    new_user = DbUser(
+        username=request.email,
+        email=request.email,
+        password=bcrypt(request.password1)
+    )
 
     try:
-        new_user = DbUser(
-            username=request.email,
-            email=request.email,
-            password=bcrypt(request.password1)
-        )
-
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
