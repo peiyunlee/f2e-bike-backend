@@ -15,6 +15,7 @@ alembic = "*"
 python-jose = "*"
 python-multipart = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 
