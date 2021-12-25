@@ -25,6 +25,7 @@ if __name__ == "__main__":
 
 origins = [
     'http://localhost:5000',
+    'http://localhost:3000',
     "*"
 ]
 
