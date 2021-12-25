@@ -40,10 +40,10 @@ def signin(db: Session, request: SignInRequestSchema):
                                    == request.email.upper()).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'User with email = {request.email} not found')
+                            detail=f'信箱錯誤')
     if not verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail='Incorrect password')
+                            detail='密碼不正確')
 
     access_token = create_access_token(data={'username': user.username})
 
