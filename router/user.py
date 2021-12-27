@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 
-@router.post('/register', response_model=UserSignInResponseSchema)
+@router.post('/register')
 async def register(request: UserRequestSchema, db: Session = Depends(get_db)):
     return db_user.register(db=db, request=request)
 

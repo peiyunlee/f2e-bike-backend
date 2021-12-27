@@ -33,6 +33,26 @@ def store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
         'routename': new_route.routename
     }
 
+
+def remove_store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
+
+    route = db.query(DbRouteItem).filter(DbRouteItem.store_id == request.store_id and DbRouteItem.city ==
+                                         request.city and DbRouteItem.routename == request.routename).first()
+
+    if not route:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Route not find')
+
+    db.delete(route)
+    db.commit()
+
+    return {
+        'store_id': route.store_id,
+        'city': route.city,
+        'routename': route.routename
+    }
+
+
 def get_store_routes_by_user_id(user_id: int, db: Session) -> List[DbRouteItem]:
     store = db.query(DbStore).filter(DbStore.user_id == user_id).first()
     if not store:

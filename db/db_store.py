@@ -25,10 +25,7 @@ def create(db: Session, request: StoreRequestSchema):
     db.add(new_store)
     db.commit()
 
-    access_token = create_access_token(data={'username': request.username})
-
     return {
-        'access_token': access_token,
         'store_id':new_store.id,
         'user_id': new_store.user_id,
         'route_items': []
