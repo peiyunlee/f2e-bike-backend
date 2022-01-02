@@ -11,7 +11,7 @@ from utils.hash import bcrypt, verify
 from utils.oauth2 import create_access_token
 
 
-def register(db: Session, request: UserRequestSchema):
+def register(request: UserRequestSchema, db: Session):
     new_user = DbUser(
         username=request.email,
         email=request.email,
@@ -25,6 +25,8 @@ def register(db: Session, request: UserRequestSchema):
         access_token = create_access_token(
             data={'username': new_user.username})
 
+        return {"aa": "aa"}
+
         return {
             'access_token': access_token,
             'user_id': new_user.id,
@@ -35,7 +37,7 @@ def register(db: Session, request: UserRequestSchema):
         raise HTTPException(status_code=400, detail=f"{exc}".split('\n')[0])
 
 
-def signin(db: Session, request: SignInRequestSchema):
+def signin(request: SignInRequestSchema, db: Session):
     user = db.query(DbUser).filter(func.upper(DbUser.email)
                                    == request.email.upper()).first()
     if not user:
@@ -46,6 +48,8 @@ def signin(db: Session, request: SignInRequestSchema):
                             detail='*密碼輸入錯誤')
 
     access_token = create_access_token(data={'username': user.username})
+
+    return {"aa": "aa"}
 
     return {
         'access_token': access_token,

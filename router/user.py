@@ -16,12 +16,12 @@ router = APIRouter(
 
 @router.post('/register')
 async def register(request: UserRequestSchema, db: Session = Depends(get_db)):
-    return db_user.register(db=db, request=request)
+    return db_user.register(request=request,db=db)
 
 
 @router.post('/signin', response_model=UserSignInResponseSchema)
 async def signin(request: SignInRequestSchema, db: Session = Depends(get_db)):
-    return db_user.signin(db=db, request=request)
+    return db_user.signin(request=request,db=db)
 
 
 @router.get('/all', response_model=List[UserResponseSchema])
