@@ -19,7 +19,7 @@ async def register(request: UserRequestSchema, db: Session = Depends(get_db)):
     return db_user.register(request=request,db=db)
 
 
-@router.post('/signin', response_model=UserSignInResponseSchema)
+@router.post('/signin')
 async def signin(request: SignInRequestSchema, db: Session = Depends(get_db)):
     return db_user.signin(request=request,db=db)
 
