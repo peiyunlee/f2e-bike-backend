@@ -37,8 +37,8 @@ def register(request: UserRequestSchema, db: Session):
 
 
 def signin(request: SignInRequestSchema, db: Session):
-    return {"aa": request.email}
     user = db.query(DbUser).filter(DbUser.email == request.email).first()
+    return {"aa": user.email}
 
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
