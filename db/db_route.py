@@ -36,7 +36,7 @@ def store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
 
 def remove_store_route(db: Session, request: RouteRequestSchema) -> DbRouteItem:
 
-    route = db.query(DbRouteItem).filter(DbRouteItem.store_id == request.store_id and DbRouteItem.city ==
+    route = db.query(DbRouteItem).filter(DbRouteItem.store_id == request.store_id).filter(DbRouteItem.city ==
                                          request.city and DbRouteItem.routename == request.routename).first()
 
     if not route:
