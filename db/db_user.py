@@ -18,14 +18,14 @@ def register(request: UserRequestSchema, db: Session):
         password=bcrypt(request.password1)
     )
 
+    return {"aa": "aa"}
+
     try:
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
         access_token = create_access_token(
             data={'username': new_user.username})
-
-        return {"aa": "aa"}
 
         return {
             'access_token': access_token,
@@ -40,6 +40,10 @@ def register(request: UserRequestSchema, db: Session):
 def signin(request: SignInRequestSchema, db: Session):
     user = db.query(DbUser).filter(func.upper(DbUser.email)
                                    == request.email.upper()).first()
+    
+
+    return {"aa": "aa"}
+    
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'*E-mail尚未註冊')
@@ -48,8 +52,6 @@ def signin(request: SignInRequestSchema, db: Session):
                             detail='*密碼輸入錯誤')
 
     access_token = create_access_token(data={'username': user.username})
-
-    return {"aa": "aa"}
 
     return {
         'access_token': access_token,
