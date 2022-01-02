@@ -18,12 +18,11 @@ def register(request: UserRequestSchema, db: Session):
         password=bcrypt(request.password1)
     )
 
-    return {"aa": "aa"}
-
     try:
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
+        return {"aa": "aa"}
         access_token = create_access_token(
             data={'username': new_user.username})
 
