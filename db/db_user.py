@@ -22,9 +22,9 @@ def register(request: UserRequestSchema, db: Session):
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return {"aa": "aa"}
         access_token = create_access_token(
             data={'username': new_user.username})
+        return {"aa": new_user.username}
 
         return {
             'access_token': access_token,
@@ -39,7 +39,7 @@ def register(request: UserRequestSchema, db: Session):
 def signin(request: SignInRequestSchema, db: Session):
     user = db.query(DbUser).filter(DbUser.email == request.email).first()
 
-    return {"aa": "aa"}
+    return {"aa": request.email}
 
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
