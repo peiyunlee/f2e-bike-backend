@@ -14,6 +14,11 @@ passlib = "*"
 alembic = "*"
 python-jose = "*"
 python-multipart = "*"
+python-dotenv = "*"
+gunicorn = "*"
+requests = "*"
+mysql-connector-python-rf = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 

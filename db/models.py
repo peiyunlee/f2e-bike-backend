@@ -1,22 +1,13 @@
 from .database import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql.schema import ForeignKey
-
-
-# class DbStationItem(Base):
-#     __tablename__ = 'station_item'
-#     id = Column(Integer, primary_key=True, index=True)
-#     store_id = Column(Integer, ForeignKey('store.id'))
-#     city = Column(String, nullable=False)
-#     station_UID = Column(Integer, nullable=False)
-
 
 class DbRouteItem(Base):
     __tablename__ = 'route_item'
     id = Column(Integer, primary_key=True, index=True)
-    city = Column(String, nullable=False)
-    routename = Column(String, nullable=False)
+    city = Column(String(10), nullable=False)
+    routename = Column(String(100), nullable=False)
     store_id = Column(Integer, ForeignKey('store.id'))
 
 class DbStore(Base):
