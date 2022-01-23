@@ -27,14 +27,12 @@ class UserRequestSchema(UserBase):
     password1: str
     password2: str
 
-    @classmethod
     @validator('password2')
     def passwords_match(cls, v, values, **kwargs):
         if 'password1' in values and v != values['password1']:
             raise ValueError('passwords do not match')
         return v
 
-    @classmethod
     @validator("password1")
     def password_must_have_6_digits(cls, v):
         if len(v) < 6:

@@ -17,6 +17,11 @@ def store_route(request: RouteRequestSchema, db: Session = Depends(get_db), curr
     return db_route.store_route(db, request)
 
 
+@router.post('/remove')
+def remove_store_route(request: RouteRequestSchema, db: Session = Depends(get_db), current_user: UserRequestSchema = Depends(get_current_user)):
+    return db_route.remove_store_route(db, request)
+
+
 @router.get('/user/{user_id}', response_model=StoreResponseWithRouteSchema)
 def get_store_routes_by_user_id(user_id: int, db: Session = Depends(get_db)):
     return db_route.get_store_routes_by_user_id(user_id=user_id, db=db)

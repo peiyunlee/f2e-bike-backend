@@ -11,17 +11,19 @@ from utils.hash import bcrypt, verify
 from utils.oauth2 import create_access_token
 
 
-def register(db: Session, request: UserRequestSchema) :
+def register(request: UserRequestSchema, db: Session):
     new_user = DbUser(
         username=request.email,
         email=request.email,
         password=bcrypt(request.password1)
     )
+
     try:
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        access_token = create_access_token(data={'username': new_user.username})
+        access_token = create_access_token(
+            data={'username': request.username})
 
         return {
             'access_token': access_token,
@@ -33,14 +35,15 @@ def register(db: Session, request: UserRequestSchema) :
         raise HTTPException(status_code=400, detail=f"{exc}".split('\n')[0])
 
 
-def signin(db: Session, request: SignInRequestSchema):
-    user = db.query(DbUser).filter(func.upper(DbUser.email) == request.email.upper()).first()
+def signin(request: SignInRequestSchema, db: Session):
+    user = db.query(DbUser).filter(DbUser.email == request.email).first()
+
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'User with email = {request.email} not found')
+                            detail=f'*E-mail尚未註冊')
     if not verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail='Incorrect password')
+                            detail='*密碼輸入錯誤')
 
     access_token = create_access_token(data={'username': user.username})
 
@@ -68,7 +71,8 @@ def get_user_by_id(user_id: int, db: Session) -> DbUser:
 
 
 def get_user_by_email(user_email: str, db: Session) -> DbUser:
-    user = db.query(DbUser).filter(func.upper(DbUser.email) == user_email.upper()).first()
+    user = db.query(DbUser).filter(func.upper(
+        DbUser.email) == user_email.upper()).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'User with email = {user_email} not found')
@@ -76,7 +80,8 @@ def get_user_by_email(user_email: str, db: Session) -> DbUser:
 
 
 def get_user_by_username(user_name: str, db: Session) -> DbUser:
-    user = db.query(DbUser).filter(func.upper(DbUser.username) == user_name.upper()).first()
+    user = db.query(DbUser).filter(func.upper(
+        DbUser.username) == user_name.upper()).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'User with user name = {user_name} not found')
