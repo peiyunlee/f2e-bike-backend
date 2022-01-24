@@ -17,8 +17,7 @@ python-multipart = "*"
 python-dotenv = "*"
 gunicorn = "*"
 requests = "*"
-mysql-connector-python-rf = "*"
-mysql-connector-python = "*"
+pymysql = "*"
 
 [dev-packages]
 

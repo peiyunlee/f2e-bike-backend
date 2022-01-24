@@ -8,13 +8,13 @@ class DbRouteItem(Base):
     id = Column(Integer, primary_key=True, index=True)
     city = Column(String(10), nullable=False)
     routename = Column(String(100), nullable=False)
-    store_id = Column(Integer, ForeignKey('store.id'))
+    store_id = Column(Integer, ForeignKey('store.id'), nullable=False)
 
 class DbStore(Base):
     __tablename__ = 'store'
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    username = Column(Integer, ForeignKey('user.username'))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    username = Column(String(30), ForeignKey('user.username'), nullable=False)
     route_items = relationship('DbRouteItem')
     # station_items = relationship('DbStationItem')
 
