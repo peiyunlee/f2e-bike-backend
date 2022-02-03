@@ -63,3 +63,6 @@ uvicorn==0.17.0
 virtualenv==20.13.0
 virtualenv-clone==0.5.7
 Werkzeug==2.0.2
+
+uvloop==0.16.0
+httptools==0.3.0
