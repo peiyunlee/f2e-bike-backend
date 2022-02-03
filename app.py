@@ -10,7 +10,6 @@ app = FastAPI(
     title="Twain Bike API",
     description="This API was developed for Twain Bike Website",
     version="0.0.1",
-    terms_of_service="http://localhost:5000",
 )
 
 app.include_router(authentication.router)
@@ -24,8 +23,6 @@ if __name__ == "__main__":
 
 
 origins = [
-    'http://localhost:5000',
-    'http://localhost:3000',
     "*"
 ]
 
