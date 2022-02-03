@@ -22,16 +22,16 @@ if __name__ == "__main__":
     uvicorn.run("app:app", port=8000, reload=True)
 
 
-origins = [
-    "*"
-]
+# origins = [
+#     "*"
+# ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=['*']
+    allow_headers=["*"]
 )
 
 models.Base.metadata.create_all(engine)
